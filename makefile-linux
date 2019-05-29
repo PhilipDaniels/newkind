@@ -18,6 +18,13 @@
 # Select wisely in battle, and be strong. =)
 #
 
+# To compile this program, follow https://wiki.allegro.cc/index.php?title=Install_Allegro_from_Ubuntu_PPAs
+# but install Allegro 4, not 5.
+#
+# sudo add-apt-repository ppa:allegro/5.2
+# sudo apt-get update
+# sudo apt-get install liballegro4-dev
+
 CC = gcc
 LIBS = `allegro-config --libs`
 CFLAGS = -O -Wall
@@ -38,9 +45,9 @@ clean:
 	$(CC) $(CFLAGS) -c $<
 
 $(EXEC): $(OBJS)
-	$(CC) -o $(EXEC) $(OBJS) $(LIBS)
-                    
-                    
+	$(CC) -o $(EXEC) $(OBJS) $(LIBS) -lm
+
+
 alg_gfx.o: alg_gfx.c alg_data.h config.h elite.h planet.h gfx.h
 
 alg_main.o: alg_main.c alg_data.h config.h elite.h planet.h gfx.h docked.h\
