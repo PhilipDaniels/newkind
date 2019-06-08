@@ -62,11 +62,11 @@ int gfx_graphics_startup (void)
 	PALETTE the_palette;
 	int rv;
 
-#ifdef ALLEGRO_WINDOWS	
+#ifdef ALLEGRO_WINDOWS
 
 #ifdef RES_512_512
 	rv = set_gfx_mode(GFX_DIRECTX_OVL, 512, 512, 0, 0);
-	
+
 	if (rv != 0)
 		rv = set_gfx_mode(GFX_DIRECTX_WIN, 512, 512, 0, 0);
 
@@ -77,7 +77,7 @@ int gfx_graphics_startup (void)
 		set_display_switch_mode (SWITCH_BACKGROUND);
 #else
  	rv = set_gfx_mode(GFX_DIRECTX, 800, 600, 0, 0);
-	
+
 	if (rv != 0)
 		rv = set_gfx_mode(GFX_GDI, 800, 600, 0, 0);
 #endif
@@ -92,7 +92,7 @@ int gfx_graphics_startup (void)
       	allegro_message("Unable to set graphics mode.");
       	return 1;
 	}
-	
+
 	datafile = load_datafile("elite.dat");
 	if (!datafile)
 	{
@@ -128,7 +128,7 @@ int gfx_graphics_startup (void)
 	LOCK_FUNCTION(frame_timer);
 	frame_count = 0;
 	install_int (frame_timer, speed_cap);
-	
+
 	return 0;
 }
 
@@ -150,7 +150,7 @@ void gfx_update_screen (void)
 	while (frame_count < 1)
 		rest (10);
 	frame_count = 0;
-	
+
 	acquire_screen();
  	blit (gfx_screen, screen, GFX_X_OFFSET, GFX_Y_OFFSET, GFX_X_OFFSET, GFX_Y_OFFSET, 512, 512);
 	release_screen();
@@ -276,7 +276,7 @@ void gfx_draw_aa_circle(int cx, int cy, int radius)
  * Draw anti-aliased line.
  * By T.Harte.
  */
- 
+
 void gfx_draw_aa_line (int x1, int y1, int x2, int y2)
 {
 	fixed grad, xd, yd;
@@ -335,7 +335,7 @@ void gfx_draw_aa_line (int x1, int y1, int x2, int y2)
 
 		brightness1 = fmul(invfrac(yend), xgap);
 		brightness2 = fmul(frac(yend), xgap);
-      
+
 		plot(ix2, iy2, brightness1 >> (16-AA_BITS));
 		plot(ix2, iy2+1, brightness2 >> (16-AA_BITS));
 
@@ -392,7 +392,7 @@ void gfx_draw_aa_line (int x1, int y1, int x2, int y2)
 
 		brightness1 = fmul(invfrac(xend), ygap);
 		brightness2 = fmul(frac(xend), ygap);
-      
+
 		plot(ix2, iy2, brightness1 >> (16-AA_BITS));
 		plot(ix2+1, iy2, brightness2 >> (16-AA_BITS));
 
@@ -424,7 +424,7 @@ void gfx_draw_circle (int cx, int cy, int radius, int circle_colour)
 {
 	if (anti_alias_gfx && (circle_colour == GFX_COL_WHITE))
 		gfx_draw_aa_circle (cx, cy, itofix(radius));
-	else	
+	else
 		circle (gfx_screen, cx + GFX_X_OFFSET, cy + GFX_Y_OFFSET, radius, circle_colour);
 }
 
@@ -501,7 +501,7 @@ void gfx_display_centre_text (int y, char *str, int psize, int col)
 {
 	int txt_size;
 	int txt_colour;
-	
+
 	if (psize == 140)
 	{
 		txt_size = ELITE_2;
@@ -550,12 +550,12 @@ void gfx_display_pretty_text (int tx, int ty, int bx, int by, char *txt)
 	int len;
 	int pos;
 	int maxlen;
-	
+
 	maxlen = (bx - tx) / 8;
 
-	str = txt;	
+	str = txt;
 	len = strlen(txt);
-	
+
 	while (len > 0)
 	{
 		pos = maxlen;
@@ -569,7 +569,7 @@ void gfx_display_pretty_text (int tx, int ty, int bx, int by, char *txt)
 		}
 
 		len = len - pos - 1;
-	
+
 		for (bptr = strbuf; pos >= 0; pos--)
 			*bptr++ = *str++;
 
@@ -605,43 +605,56 @@ void gfx_render_polygon (int num_points, int *point_list, int face_colour, int z
 	int i;
 	int x;
 	int nx;
-	
+
 	if (total_polys == MAX_POLYS)
 		return;
 
 	x = total_polys;
 	total_polys++;
-	
+
+	// Add a new polygon to the end of the list.
 	poly_chain[x].no_points = num_points;
 	poly_chain[x].face_colour = face_colour;
 	poly_chain[x].z = zavg;
-	poly_chain[x].next = -1;
+	poly_chain[x].next = -1;	// 'null ptr' sentinel.
 
 	for (i = 0; i < 16; i++)
-		poly_chain[x].point_list[i] = point_list[i];				
+		poly_chain[x].point_list[i] = point_list[i];
 
+	// If there is only 1 polygon then we have nothing to do.
 	if (x == 0)
 		return;
 
+	// If the zavg that was passed in is larger than the z of the polygon that is currently
+	// at the head of the list then make this new polygon the start of the list.
 	if (zavg > poly_chain[start_poly].z)
 	{
 		poly_chain[x].next = start_poly;
 		start_poly = x;
 		return;
-	} 	
+	}
 
+	// Traverse the list from beginning to end.
 	for (i = start_poly; poly_chain[i].next != -1; i = poly_chain[i].next)
 	{
+		// Find the index of the next item.
 		nx = poly_chain[i].next;
-		
+
+		// If the passed zavg is greater than the z of the next item, then
+		// ??? not sure, but I believe all this is to sort the polygons
+		// by zorder. (Looks like an insertion sort). The only other place
+		// that poly_chain is used is in gfx_finish_render, which just goes
+		// through the list from beginning to end, drawing each polygon in turn.
+		// So that ones nearer the camera are drawn on later (on top of) earlier
+		// ones.
 		if (zavg > poly_chain[nx].z)
 		{
 			poly_chain[i].next = x;
 			poly_chain[x].next = nx;
 			return;
 		}
-	}	
-	
+	}
+
 	poly_chain[i].next = x;
 }
 
@@ -649,12 +662,12 @@ void gfx_render_polygon (int num_points, int *point_list, int face_colour, int z
 void gfx_render_line (int x1, int y1, int x2, int y2, int dist, int col)
 {
 	int point_list[4];
-	
+
 	point_list[0] = x1;
 	point_list[1] = y1;
 	point_list[2] = x2;
 	point_list[3] = y2;
-	
+
 	gfx_render_polygon (2, point_list, col, dist);
 }
 
@@ -665,10 +678,10 @@ void gfx_finish_render (void)
 	int *pl;
 	int i;
 	int col;
-	
+
 	if (total_polys == 0)
 		return;
-		
+
 	for (i = start_poly; i != -1; i = poly_chain[i].next)
 	{
 		num_points = poly_chain[i].no_points;
@@ -680,8 +693,8 @@ void gfx_finish_render (void)
 			gfx_draw_colour_line (pl[0], pl[1], pl[2], pl[3], col);
 			continue;
 		}
-		
-		gfx_polygon (num_points, pl, col); 
+
+		gfx_polygon (num_points, pl, col);
 	};
 }
 
@@ -690,7 +703,7 @@ void gfx_polygon (int num_points, int *poly_list, int face_colour)
 {
 	int i;
 	int x,y;
-	
+
 	x = 0;
 	y = 1;
 	for (i = 0; i < num_points; i++)
@@ -700,7 +713,7 @@ void gfx_polygon (int num_points, int *poly_list, int face_colour)
 		x += 2;
 		y += 2;
 	}
-	
+
 	polygon (gfx_screen, num_points, poly_list, face_colour);
 }
 
@@ -708,33 +721,33 @@ void gfx_polygon (int num_points, int *poly_list, int face_colour)
 void gfx_draw_sprite (int sprite_no, int x, int y)
 {
 	BITMAP *sprite_bmp;
-	
+
 	switch (sprite_no)
 	{
 		case IMG_GREEN_DOT:
 			sprite_bmp = datafile[GRNDOT].dat;
 			break;
-		
+
 		case IMG_RED_DOT:
 			sprite_bmp = datafile[REDDOT].dat;
 			break;
-			
+
 		case IMG_BIG_S:
 			sprite_bmp = datafile[SAFE].dat;
 			break;
-		
+
 		case IMG_ELITE_TXT:
 			sprite_bmp = datafile[ELITETXT].dat;
 			break;
-			
+
 		case IMG_BIG_E:
 			sprite_bmp = datafile[ECM].dat;
 			break;
-			
+
 		case IMG_BLAKE:
 			sprite_bmp = datafile[BLAKE].dat;
 			break;
-		
+
 		case IMG_MISSILE_GREEN:
 			sprite_bmp = datafile[MISSILE_G].dat;
 			break;
@@ -753,7 +766,7 @@ void gfx_draw_sprite (int sprite_no, int x, int y)
 
 	if (x == -1)
 		x = ((256 * GFX_SCALE) - sprite_bmp->w) / 2;
-	
+
 	draw_sprite (gfx_screen, sprite_bmp, x + GFX_X_OFFSET, y + GFX_Y_OFFSET);
 }
 

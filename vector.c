@@ -102,7 +102,7 @@ void mult_vector (struct vector *vec, struct vector *mat)
 
 double vector_dot_product (struct vector *first, struct vector *second)
 {
-	return (first->x * second->x) + (first->y * second->y) + (first->z * second->z);	
+	return (first->x * second->x) + (first->y * second->y) + (first->z * second->z);
 }
 
 
@@ -126,14 +126,14 @@ struct vector unit_vector (struct vector *vec)
 	res.x = lx / uni;
 	res.y = ly / uni;
 	res.z = lz / uni;
-	
+
 	return res;
 }
 
 
 
 
-
+/* Sets mat to a copy of start_matrix. Basically a way of initializing a matrix. */
 void set_init_matrix (struct vector *mat)
 {
 	int i;
@@ -163,12 +163,12 @@ void tidy_matrix (struct vector *mat)
 	{
 		mat[1].x = -(mat[2].y * mat[1].y + mat[2].z * mat[1].z) / mat[2].x;
 	}
-	
+
 	mat[1] = unit_vector (&mat[1]);
-	
+
 
 	/* xyzzy... nothing happens. :-)*/
-	
+
 	mat[0].x = mat[1].y * mat[2].z - mat[1].z * mat[2].y;
 	mat[0].y = mat[1].z * mat[2].x - mat[1].x * mat[2].z;
 	mat[0].z = mat[1].x * mat[2].y - mat[1].y * mat[2].x;
