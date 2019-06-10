@@ -21,7 +21,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <math.h> 
+#include <math.h>
 #include <ctype.h>
 #include <time.h>
 #include <stdlib.h>
@@ -95,15 +95,15 @@ void initialise_game(void)
 	witchspace = 0;
 	game_paused = 0;
 	auto_pilot = 0;
-	
+
 	create_new_stars();
 	clear_universe();
-	
+
 	cross_x = -1;
 	cross_y = -1;
 	cross_timer = 0;
 
-	
+
 	myship.max_speed = 40;		/* 0.27 Light Mach */
 	myship.max_roll = 31;
 	myship.max_climb = 8;		/* CF 8 */
@@ -146,13 +146,13 @@ void move_cross (int dx, int dy)
 
 		if (cross_x < 1)
 			cross_x = 1;
-			
+
 		if (cross_x > 510)
 			cross_x = 510;
 
 		if (cross_y < 37)
 			cross_y = 37;
-		
+
 		if (cross_y > 293)
 			cross_y = 293;
 	}
@@ -175,7 +175,7 @@ void draw_cross (int cx, int cy)
 		gfx_set_clip_region (1, 1, 510, 383);
 		return;
 	}
-	
+
 	if (current_screen == SCR_GALACTIC_CHART)
 	{
 		gfx_set_clip_region (1, 37, 510, 293);
@@ -193,14 +193,14 @@ void draw_laser_sights(void)
 {
 	int laser = 0;
 	int x1,y1,x2,y2;
-	
+
 	switch (current_screen)
 	{
 		case SCR_FRONT_VIEW:
 			gfx_display_centre_text (32, "Front View", 120, GFX_COL_WHITE);
 			laser = cmdr.front_laser;
 			break;
-		
+
 		case SCR_REAR_VIEW:
 			gfx_display_centre_text (32, "Rear View", 120, GFX_COL_WHITE);
 			laser = cmdr.rear_laser;
@@ -216,39 +216,39 @@ void draw_laser_sights(void)
 			laser = cmdr.right_laser;
 			break;
 	}
-	
+
 
 	if (laser)
 	{
 		x1 = 128 * GFX_SCALE;
 		y1 = (96-8) * GFX_SCALE;
 		y2 = (96-16) * GFX_SCALE;
-   
-		gfx_draw_colour_line (x1-1, y1, x1-1, y2, GFX_COL_GREY_1); 
+
+		gfx_draw_colour_line (x1-1, y1, x1-1, y2, GFX_COL_GREY_1);
 		gfx_draw_colour_line (x1, y1, x1, y2, GFX_COL_WHITE);
-		gfx_draw_colour_line (x1+1, y1, x1+1, y2, GFX_COL_GREY_1); 
+		gfx_draw_colour_line (x1+1, y1, x1+1, y2, GFX_COL_GREY_1);
 
 		y1 = (96+8) * GFX_SCALE;
 		y2 = (96+16) * GFX_SCALE;
-		
-		gfx_draw_colour_line (x1-1, y1, x1-1, y2, GFX_COL_GREY_1); 
+
+		gfx_draw_colour_line (x1-1, y1, x1-1, y2, GFX_COL_GREY_1);
 		gfx_draw_colour_line (x1, y1, x1, y2, GFX_COL_WHITE);
-		gfx_draw_colour_line (x1+1, y1, x1+1, y2, GFX_COL_GREY_1); 
+		gfx_draw_colour_line (x1+1, y1, x1+1, y2, GFX_COL_GREY_1);
 
 		x1 = (128-8) * GFX_SCALE;
 		y1 = 96 * GFX_SCALE;
 		x2 = (128-16) * GFX_SCALE;
-		   
-		gfx_draw_colour_line (x1, y1-1, x2, y1-1, GFX_COL_GREY_1); 
+
+		gfx_draw_colour_line (x1, y1-1, x2, y1-1, GFX_COL_GREY_1);
 		gfx_draw_colour_line (x1, y1, x2, y1, GFX_COL_WHITE);
-		gfx_draw_colour_line (x1, y1+1, x2, y1+1, GFX_COL_GREY_1); 
+		gfx_draw_colour_line (x1, y1+1, x2, y1+1, GFX_COL_GREY_1);
 
 		x1 = (128+8) * GFX_SCALE;
 		x2 = (128+16) * GFX_SCALE;
 
-		gfx_draw_colour_line (x1, y1-1, x2, y1-1, GFX_COL_GREY_1); 
+		gfx_draw_colour_line (x1, y1-1, x2, y1-1, GFX_COL_GREY_1);
 		gfx_draw_colour_line (x1, y1, x2, y1, GFX_COL_WHITE);
-		gfx_draw_colour_line (x1, y1+1, x2, y1+1, GFX_COL_GREY_1); 
+		gfx_draw_colour_line (x1, y1+1, x2, y1+1, GFX_COL_GREY_1);
 	}
 }
 
@@ -260,7 +260,7 @@ void arrow_right (void)
 		case SCR_MARKET_PRICES:
 			buy_stock();
 			break;
-		
+
 		case SCR_SETTINGS:
 			select_right_setting();
 			break;
@@ -298,7 +298,7 @@ void arrow_left (void)
 		case SCR_SETTINGS:
 			select_left_setting();
 			break;
-		
+
 		case SCR_SHORT_RANGE:
 		case SCR_GALACTIC_CHART:
 			move_cross (-1, 0);
@@ -340,7 +340,7 @@ void arrow_up (void)
 		case SCR_SETTINGS:
 			select_up_setting();
 			break;
-		
+
 		case SCR_SHORT_RANGE:
 		case SCR_GALACTIC_CHART:
 			move_cross (0, -1);
@@ -374,7 +374,7 @@ void arrow_down (void)
 		case SCR_EQUIP_SHIP:
 			select_next_equip();
 			break;
-		
+
 		case SCR_OPTIONS:
 			select_next_option();
 			break;
@@ -382,7 +382,7 @@ void arrow_down (void)
 		case SCR_SETTINGS:
 			select_down_setting();
 			break;
-		
+
 		case SCR_SHORT_RANGE:
 		case SCR_GALACTIC_CHART:
 			move_cross (0, 1);
@@ -412,7 +412,7 @@ void return_pressed (void)
 		case SCR_EQUIP_SHIP:
 			buy_equip();
 			break;
-		
+
 		case SCR_OPTIONS:
 			do_option();
 			break;
@@ -420,7 +420,7 @@ void return_pressed (void)
 		case SCR_SETTINGS:
 			toggle_setting();
 			break;
-	}	
+	}
 }
 
 
@@ -457,7 +457,7 @@ void d_pressed (void)
 		case SCR_SHORT_RANGE:
     		show_distance_to_planet();
 			break;
-		
+
 		case SCR_FRONT_VIEW:
 		case SCR_REAR_VIEW:
 		case SCR_RIGHT_VIEW:
@@ -485,15 +485,15 @@ void f_pressed (void)
 void add_find_char (int letter)
 {
 	char str[40];
-	
+
 	if (strlen (find_name) == 16)
 		return;
-		
+
 	str[0] = toupper (letter);
 	str[1] = '\0';
 	strcat (find_name, str);
 
-	sprintf (str, "Planet Name? %s", find_name);		
+	sprintf (str, "Planet Name? %s", find_name);
 	gfx_clear_text_area ();
 	gfx_display_text(16, 340, str);
 }
@@ -507,10 +507,10 @@ void delete_find_char (void)
 	len = strlen (find_name);
 	if (len == 0)
 		return;
-		
-	find_name[len - 1] = '\0';	
-		
-	sprintf (str, "Planet Name? %s", find_name);		
+
+	find_name[len - 1] = '\0';
+
+	sprintf (str, "Planet Name? %s", find_name);
 	gfx_clear_text_area();
 	gfx_display_text(16, 340, str);
 }
@@ -534,7 +534,7 @@ void auto_dock (void)
 	ship.location.x = 0;
 	ship.location.y = 0;
 	ship.location.z = 0;
-	
+
 	set_init_matrix (ship.rotmat);
 	ship.rotmat[2].z = 1;
 	ship.rotmat[0].x = -1;
@@ -551,7 +551,7 @@ void auto_dock (void)
 		flight_speed = 22;
 	else
 		flight_speed = ship.velocity;
-	
+
 	if (ship.acceleration > 0)
 	{
 		flight_speed++;
@@ -564,11 +564,11 @@ void auto_dock (void)
 		flight_speed--;
 		if (flight_speed < 1)
 			flight_speed = 1;
-	}	
+	}
 
 	if (ship.rotx == 0)
 		flight_climb = 0;
-	
+
 	if (ship.rotx < 0)
 	{
 		increase_flight_climb();
@@ -576,7 +576,7 @@ void auto_dock (void)
 		if (ship.rotx < -1)
 			increase_flight_climb();
 	}
-	
+
 	if (ship.rotx > 0)
 	{
 		decrease_flight_climb();
@@ -584,7 +584,7 @@ void auto_dock (void)
 		if (ship.rotx > 1)
 			decrease_flight_climb();
 	}
-	
+
 	if (ship.rotz == 127)
 		flight_roll = -14;
 	else
@@ -599,7 +599,7 @@ void auto_dock (void)
 			if (ship.rotz > 1)
 				increase_flight_roll();
 		}
-		
+
 		if (ship.rotz < 0)
 		{
 			decrease_flight_roll();
@@ -616,16 +616,16 @@ void run_escape_sequence (void)
 	int i;
 	int newship;
 	Matrix rotmat;
-	
+
 	current_screen = SCR_ESCAPE_POD;
-	
+
 	flight_speed = 1;
 	flight_roll = 0;
 	flight_climb = 0;
 
 	set_init_matrix (rotmat);
 	rotmat[2].z = 1.0;
-	
+
 	newship = add_new_ship (SHIP_COBRA3, 0, 0, 200, rotmat, -127, -127);
 	universe[newship].velocity = 7;
 	snd_play_sample (SND_LAUNCH);
@@ -648,12 +648,12 @@ void run_escape_sequence (void)
 		universe[newship].location.z += 2;
 
 		gfx_display_centre_text (358, "Escape pod launched - Ship auto-destuct initiated.", 120, GFX_COL_WHITE);
-		
+
 		update_console();
 		gfx_update_screen();
 	}
 
-	
+
 	while ((ship_count[SHIP_CORIOLIS] == 0) &&
 		   (ship_count[SHIP_DODEC] == 0))
 	{
@@ -685,7 +685,7 @@ void run_escape_sequence (void)
 void handle_flight_keys (void)
 {
     int keyasc;
-	
+
 	if (docked &&
 	    ((current_screen == SCR_MARKET_PRICES) ||
 		 (current_screen == SCR_OPTIONS) ||
@@ -696,12 +696,12 @@ void handle_flight_keys (void)
 	kbd_poll_keyboard();
 
 	if (have_joystick)
-	{	
-		poll_joystick();	
+	{
+		poll_joystick();
 
 		if (joy[0].stick[0].axis[1].d1)
 			arrow_up();
-		
+
 		if (joy[0].stick[0].axis[1].d2)
 			arrow_down();
 
@@ -710,7 +710,7 @@ void handle_flight_keys (void)
 
 		if (joy[0].stick[0].axis[0].d2)
 			arrow_right();
-		
+
 		if (joy[0].button[0].b)
 			kbd_fire_pressed = 1;
 
@@ -721,18 +721,18 @@ void handle_flight_keys (void)
 			kbd_dec_speed_pressed = 1;
 	}
 
-	
+
 	if (game_paused)
 	{
 		if (kbd_resume_pressed)
 			game_paused = 0;
 		return;
 	}
-		
+
 	if (kbd_F1_pressed)
 	{
 		find_input = 0;
-		
+
 		if (docked)
 			launch_player();
 		else
@@ -748,7 +748,7 @@ void handle_flight_keys (void)
 	if (kbd_F2_pressed)
 	{
 		find_input = 0;
-		
+
 		if (!docked)
 		{
 			if (current_screen != SCR_REAR_VIEW)
@@ -762,7 +762,7 @@ void handle_flight_keys (void)
 	if (kbd_F3_pressed)
 	{
 		find_input = 0;
-		
+
 		if (!docked)
 		{
 			if (current_screen != SCR_LEFT_VIEW)
@@ -776,7 +776,7 @@ void handle_flight_keys (void)
 	if (kbd_F4_pressed)
 	{
 		find_input = 0;
-		
+
 		if (docked)
 			equip_ship();
 		else
@@ -789,7 +789,7 @@ void handle_flight_keys (void)
 		}
 	}
 
-	
+
 	if (kbd_F5_pressed)
 	{
 		find_input = 0;
@@ -814,7 +814,7 @@ void handle_flight_keys (void)
 	{
 		find_input = 0;
 		display_market_prices();
-	}	
+	}
 
 	if (kbd_F9_pressed)
 	{
@@ -827,7 +827,7 @@ void handle_flight_keys (void)
 		find_input = 0;
 		display_inventory();
 	}
-	
+
 	if (kbd_F11_pressed)
 	{
 		find_input = 0;
@@ -837,7 +837,7 @@ void handle_flight_keys (void)
 	if (find_input)
 	{
 		keyasc = kbd_read_key();
-		
+
 		if (kbd_enter_pressed)
 		{
 			find_input = 0;
@@ -854,16 +854,16 @@ void handle_flight_keys (void)
 		if (isalpha(keyasc))
 			add_find_char (keyasc);
 
-		return;		
+		return;
 	}
-	
+
 	if (kbd_y_pressed)
 		y_pressed();
 
 	if (kbd_n_pressed)
 		n_pressed();
 
- 
+
 	if (kbd_fire_pressed)
 	{
 		if ((!docked) && (draw_lasers == 0))
@@ -883,7 +883,7 @@ void handle_flight_keys (void)
 
 	if (kbd_d_pressed)
 		d_pressed();
-	
+
 	if (kbd_ecm_pressed)
 	{
 		if (!docked && cmdr.ecm)
@@ -892,7 +892,7 @@ void handle_flight_keys (void)
 
 	if (kbd_find_pressed)
 		f_pressed ();
-	
+
 	if (kbd_hyperspace_pressed && (!docked))
 	{
 		if (kbd_ctrl_pressed)
@@ -905,7 +905,7 @@ void handle_flight_keys (void)
 	{
 		jump_warp();
 	}
-	
+
 	if (kbd_fire_missile_pressed)
 	{
 		if (!docked)
@@ -917,11 +917,11 @@ void handle_flight_keys (void)
 
 	if (kbd_pause_pressed)
 		game_paused = 1;
-	
+
 	if (kbd_target_missile_pressed)
 	{
 		if (!docked)
-			arm_missile();		
+			arm_missile();
 	}
 
 	if (kbd_unarm_missile_pressed)
@@ -929,7 +929,7 @@ void handle_flight_keys (void)
 		if (!docked)
 			unarm_missile();
 	}
-	
+
 	if (kbd_inc_speed_pressed)
 	{
 		if (!docked)
@@ -950,16 +950,16 @@ void handle_flight_keys (void)
 
 	if (kbd_up_pressed)
 		arrow_up();
-	
+
 	if (kbd_down_pressed)
 		arrow_down();
 
 	if (kbd_left_pressed)
 		arrow_left();
-		
+
 	if (kbd_right_pressed)
 		arrow_right();
-	
+
 	if (kbd_enter_pressed)
 		return_pressed();
 
@@ -970,7 +970,7 @@ void handle_flight_keys (void)
 			detonate_bomb = 1;
 			cmdr.energy_bomb = 0;
 		}
-	}		
+	}
 
 	if (kbd_escape_pressed)
 	{
@@ -985,7 +985,7 @@ void set_commander_name (char *path)
 {
 	char *fname, *cname;
 	int i;
-	
+
 	fname = get_filename (path);
 	cname = cmdr.name;
 
@@ -993,9 +993,9 @@ void set_commander_name (char *path)
 	{
 		if (!isalnum(*fname))
 			break;
-		
+
 		*cname++ = toupper(*fname++);
-	}	
+	}
 
 	*cname = '\0';
 }
@@ -1006,19 +1006,19 @@ void save_commander_screen (void)
 	char path[255];
 	int okay;
 	int rv;
-	
+
 	current_screen = SCR_SAVE_CMDR;
 
 	gfx_clear_display();
 	gfx_display_centre_text (10, "SAVE COMMANDER", 140, GFX_COL_GOLD);
 	gfx_draw_line (0, 36, 511, 36);
 	gfx_update_screen();
-	
+
 	strcpy (path, cmdr.name);
 	strcat (path, ".nkc");
-	
+
 	okay = gfx_request_file ("Save Commander", path, "nkc");
-	
+
 	if (!okay)
 	{
 		display_options();
@@ -1032,7 +1032,7 @@ void save_commander_screen (void)
 		gfx_display_centre_text (175, "Error Saving Commander!", 140, GFX_COL_GOLD);
 		return;
 	}
-	
+
 	gfx_display_centre_text (175, "Commander Saved.", 140, GFX_COL_GOLD);
 
 	set_commander_name (path);
@@ -1051,10 +1051,10 @@ void load_commander_screen (void)
 	gfx_display_centre_text (10, "LOAD COMMANDER", 140, GFX_COL_GOLD);
 	gfx_draw_line (0, 36, 511, 36);
 	gfx_update_screen();
-	
-	
+
+
 	strcpy (path, "jameson.nkc");
-	
+
 	rv = gfx_request_file ("Load Commander", path, "nkc");
 
 	if (rv == 0)
@@ -1071,7 +1071,7 @@ void load_commander_screen (void)
 		readkey();
 		return;
 	}
-	
+
 	restore_saved_commander();
 	set_commander_name (path);
 	saved_cmdr = cmdr;
@@ -1098,17 +1098,17 @@ void run_first_intro_screen (void)
 
 		if (kbd_y_pressed)
 		{
-			snd_stop_midi();	
+			snd_stop_midi();
 			load_commander_screen();
 			break;
 		}
-		
+
 		if (kbd_n_pressed)
-		{ 
-			snd_stop_midi();	
+		{
+			snd_stop_midi();
 			break;
 		}
-	} 
+	}
 
 }
 
@@ -1117,9 +1117,9 @@ void run_first_intro_screen (void)
 void run_second_intro_screen (void)
 {
 	current_screen = SCR_INTRO_TWO;
-	
+
 	snd_play_midi (SND_BLUE_DANUBE, TRUE);
-		
+
 	initialise_intro2();
 
 	flight_speed = 3;
@@ -1134,9 +1134,9 @@ void run_second_intro_screen (void)
 
 		kbd_poll_keyboard();
 
-		if (kbd_space_pressed) 
+		if (kbd_space_pressed)
 			break;
-	} 
+	}
 
 	snd_stop_midi();
 }
@@ -1144,7 +1144,7 @@ void run_second_intro_screen (void)
 
 
 /*
- * Draw the game over sequence. 
+ * Draw the game over sequence.
  */
 
 void run_game_over_screen()
@@ -1153,10 +1153,10 @@ void run_game_over_screen()
 	int newship;
 	Matrix rotmat;
 	int type;
-	
+
 	current_screen = SCR_GAME_OVER;
 	gfx_set_clip_region (1, 1, 510, 383);
-	
+
 	flight_speed = 6;
 	flight_roll = 0;
 	flight_climb = 0;
@@ -1176,8 +1176,8 @@ void run_game_over_screen()
 		universe[newship].rotx = ((rand255() * 2) & 255) - 128;
 		universe[newship].velocity = rand255() & 15;
 	}
-	
-	
+
+
 	for (i = 0; i < 100; i++)
 	{
 		gfx_clear_display();
@@ -1202,12 +1202,12 @@ void display_break_pattern (void)
 
 	gfx_set_clip_region (1, 1, 510, 383);
 	gfx_clear_display();
-	
+
 	for (i = 0; i < 20; i++)
 	{
 		gfx_draw_circle (256, 192, 30 + i * 15, GFX_COL_WHITE);
 		gfx_update_screen();
-	}	
+	}
 
 
 	if (docked)
@@ -1236,22 +1236,158 @@ void info_message (char *message)
 void initialise_allegro (void)
 {
 	allegro_init();
-	install_keyboard(); 
+	install_keyboard();
 	install_timer();
 	install_mouse();
 
 	have_joystick = 0;
-	
+
 	if (install_joystick(JOY_TYPE_AUTODETECT) == 0)
 	{
 		have_joystick = (num_joysticks > 0);
 	}
 }
 
+void dump_colour(int colour) {
+	switch (colour) {
+		case GFX_COL_BLACK:    printf("   GFX_COL_BLACK"); break;
+		case GFX_COL_DARK_RED: printf("GFX_COL_DARK_RED"); break;
+		case GFX_COL_WHITE:    printf("   GFX_COL_WHITE"); break;
+		case GFX_COL_GOLD:     printf("    GFX_COL_GOLD"); break;
+		case GFX_COL_RED:      printf("     GFX_COL_RED"); break;
+		case GFX_COL_CYAN:     printf("    GFX_COL_CYAN"); break;
 
+		case GFX_COL_GREY_1:   printf("  GFX_COL_GREY_1"); break;
+		case GFX_COL_GREY_2:   printf("  GFX_COL_GREY_2"); break;
+		case GFX_COL_GREY_3:   printf("  GFX_COL_GREY_3"); break;
+		case GFX_COL_GREY_4:   printf("  GFX_COL_GREY_4"); break;
+
+		case GFX_COL_BLUE_1:   printf("  GFX_COL_BLUE_1"); break;
+		case GFX_COL_BLUE_2:   printf("  GFX_COL_BLUE_2"); break;
+		case GFX_COL_BLUE_3:   printf("  GFX_COL_BLUE_3"); break;
+		case GFX_COL_BLUE_4:   printf("  GFX_COL_BLUE_4"); break;
+
+		case GFX_COL_RED_3:    printf("   GFX_COL_RED_3"); break;
+		case GFX_COL_RED_4:    printf("   GFX_COL_RED_4"); break;
+		case GFX_COL_WHITE_2:  printf(" GFX_COL_WHITE_2"); break;
+
+		case GFX_COL_YELLOW_1: printf("GFX_COL_YELLOW_1"); break;
+		//case GFX_COL_YELLOW_2: printf("GFX_COL_YELLOW_2"); break;		duplicate colour
+		case GFX_COL_YELLOW_3: printf("GFX_COL_YELLOW_3"); break;
+		case GFX_COL_YELLOW_4: printf("GFX_COL_YELLOW_4"); break;
+		case GFX_COL_YELLOW_5: printf("GFX_COL_YELLOW_5"); break;
+
+		case GFX_ORANGE_1:     printf("    GFX_ORANGE_1"); break;
+		case GFX_ORANGE_2:     printf("    GFX_ORANGE_2"); break;
+		case GFX_ORANGE_3:     printf("    GFX_ORANGE_3"); break;
+
+		case GFX_COL_GREEN_1:  printf(" GFX_COL_GREEN_1"); break;
+		case GFX_COL_GREEN_2:  printf(" GFX_COL_GREEN_2"); break;
+		case GFX_COL_GREEN_3:  printf(" GFX_COL_GREEN_3"); break;
+
+		case GFX_COL_PINK_1:   printf("  GFX_COL_PINK_1"); break;
+		default:
+			fprintf(stderr, "Invalid colour %d", colour);
+			exit(1);
+	}
+}
+
+void dump_ship_data(struct ship_data* ship, char* name, struct ship_solid* solid) {
+	printf("static %s_POINT: [ShipPoint; %u] = [\n", name, ship->num_points);
+	for (int i = 0; i < ship->num_points; i++) {
+		struct ship_point p = ship->points[i];
+		printf("    ShipPoint { x: %4d, y: %4d, z: %4d, dist: %4d, face1: %2d, face2: %2d, face3: %2d, face4: %2d },\n", p.x, p.y, p.z, p.dist, p.face1, p.face2, p.face3, p.face4);
+	}
+	printf("];\n\n");
+
+	printf("static %s_LINE: [ShipLine; %u] = [\n", name, ship->num_lines);
+	for (int i = 0; i < ship->num_lines; i++) {
+		struct ship_line l = ship->lines[i];
+		printf("    ShipLine { dist: %4d, face1: %2d, face2: %2d, start_point: %2d, end_point: %2d },\n", l.dist, l.face1, l.face2, l.start_point, l.end_point);
+	}
+	printf("];\n\n");
+
+	printf("static %s_FACE_NORMAL: [ShipFaceNormal; %u] = [\n", name, ship->num_faces);
+	for (int i = 0; i < ship->num_faces; i++) {
+		struct ship_face_normal n = ship->normals[i];
+		printf("    ShipFaceNormal { dist: %4d, x: %4d, y: %4d, z: %4d },\n", n.dist, n.x, n.y, n.z);
+	}
+	printf("];\n\n");
+
+	printf("static %s_FACE: [ShipFace; %u] = [\n", name, solid->num_faces);
+	for (int i = 0; i < solid->num_faces; i++) {
+		struct ship_face f = solid->face_data[i];
+
+		printf("    ShipFace { color: ");
+		dump_colour(f.colour);
+		printf(", norm_x: %4d, norm_y: %4d, norm_z: %4d, num_points: %1d, p1: %2d, p2: %2d, p3: %2d, p4: %2d, p5: %2d, p6: %2d, p7: %2d, p8: %2d },\n",
+			f.norm_x, f.norm_y, f.norm_z,
+			f.points,
+			f.p1, f.p2, f.p3, f.p4, f.p5, f.p6, f.p7, f.p8);
+	}
+	printf("];\n\n");
+
+	printf("pub static %s_DATA: ShipData = ShipData {\n", name);
+	printf("    name: \"%s\",\n", ship->name);
+	printf("    max_loot: %d,\n", ship->max_loot);
+	printf("    scoop_type: %d,\n", ship->scoop_type);
+	printf("    size: %f,\n", ship->size);
+	printf("    front_laser: %d,\n", ship->front_laser);
+	printf("    bounty: %d,\n", ship->bounty);
+	printf("    vanish_point: %d,\n", ship->vanish_point);
+	printf("    energy: %d,\n", ship->energy);
+	printf("    velocity: %d,\n", ship->velocity);
+	printf("    missiles: %d,\n", ship->missiles);
+	printf("    laser_strength: %d,\n", ship->laser_strength);
+	printf("    points: &%s_POINT,\n", name);
+	printf("    lines: &%s_LINE,\n", name);
+	printf("    normals: &%s_FACE_NORMAL,\n", name);
+	printf("    faces: &%s_FACE,\n", name);
+	printf("};\n\n");
+}
+
+void dump_all_ships() {
+	dump_ship_data(&missile_data, "MISSILE", &ship_solids[1]);
+	dump_ship_data(&coriolis_data, "CORIOLIS", &ship_solids[2]);
+	dump_ship_data(&esccaps_data, "ESCAPE_CAPSULE", &ship_solids[3]);
+	dump_ship_data(&alloy_data, "ALLOY", &ship_solids[4]);
+	dump_ship_data(&cargo_data, "CARGO", &ship_solids[5]);
+	dump_ship_data(&boulder_data, "BOULDER", &ship_solids[6]);
+	dump_ship_data(&asteroid_data, "ASTEROID", &ship_solids[7]);
+	dump_ship_data(&rock_data, "ROCK", &ship_solids[8]);
+	dump_ship_data(&orbit_data, "SHUTTLE", &ship_solids[9]);
+	dump_ship_data(&transp_data, "TRANSPORTER", &ship_solids[10]);
+	dump_ship_data(&cobra3a_data, "COBRA_3", &ship_solids[11]);
+	dump_ship_data(&pythona_data, "PYTHON", &ship_solids[12]);
+	dump_ship_data(&boa_data, "BOA", &ship_solids[13]);
+	dump_ship_data(&anacnda_data, "ANACONDA", &ship_solids[14]);
+	dump_ship_data(&hermit_data, "HERMIT", &ship_solids[15]);
+	dump_ship_data(&viper_data, "VIPER", &ship_solids[16]);
+	dump_ship_data(&sidewnd_data, "SIDEWINDER", &ship_solids[17]);
+	dump_ship_data(&mamba_data, "MAMBA", &ship_solids[18]);
+	dump_ship_data(&krait_data, "KRAIT", &ship_solids[19]);
+	dump_ship_data(&adder_data, "ADDER", &ship_solids[20]);
+	dump_ship_data(&gecko_data, "GECKO", &ship_solids[21]);
+	dump_ship_data(&cobra1_data, "COBRA_1", &ship_solids[22]);
+	dump_ship_data(&worm_data, "WORM", &ship_solids[23]);
+	dump_ship_data(&cobra3b_data, "COBRA_3_LONE", &ship_solids[24]);
+	dump_ship_data(&asp2_data, "ASP_2", &ship_solids[25]);
+	dump_ship_data(&pythonb_data, "PYTHON_LONE", &ship_solids[26]);
+	dump_ship_data(&ferdlce_data, "FER_DE_LANCE", &ship_solids[27]);
+	dump_ship_data(&moray_data, "MORAY", &ship_solids[28]);
+	dump_ship_data(&thargoid_data, "THARGOID", &ship_solids[29]);
+	dump_ship_data(&thargon_data, "THARGLET", &ship_solids[30]);
+	dump_ship_data(&constrct_data, "CONSTRICTOR", &ship_solids[31]);
+	dump_ship_data(&cougar_data, "COUGAR", &ship_solids[32]);
+	dump_ship_data(&dodec_data, "DODEC", &ship_solids[33]);
+}
 
 int main()
 {
+	dump_all_ships();
+	exit(0);
+
+
 	initialise_allegro();
 	read_config_file();
 
@@ -1259,19 +1395,19 @@ int main()
 	{
 		return 1;
 	}
-	
+
 	/* Start the sound system... */
 	snd_sound_startup();
 
 	/* Do any setup necessary for the keyboard... */
 	kbd_keyboard_startup();
-	
+
 	finish = 0;
 	auto_pilot = 0;
-	
+
 	while (!finish)
 	{
-		game_over = 0;	
+		game_over = 0;
 		initialise_game();
 		dock_player();
 
@@ -1286,7 +1422,7 @@ int main()
 
 		dock_player ();
 		display_commander_status ();
-		
+
 		while (!game_over)
 		{
 			snd_update_sound();
@@ -1300,7 +1436,7 @@ int main()
 
 			if (game_paused)
 				continue;
-				
+
 			if (message_count > 0)
 				message_count--;
 
@@ -1308,7 +1444,7 @@ int main()
 			{
 				if (flight_roll > 0)
 					decrease_flight_roll();
-			
+
 				if (flight_roll < 0)
 					increase_flight_roll();
 			}
@@ -1326,7 +1462,7 @@ int main()
 			if (!docked)
 			{
 				gfx_acquire_screen();
-					
+
 				if ((current_screen == SCR_FRONT_VIEW) || (current_screen == SCR_REAR_VIEW) ||
 					(current_screen == SCR_LEFT_VIEW) || (current_screen == SCR_RIGHT_VIEW) ||
 					(current_screen == SCR_INTRO_ONE) || (current_screen == SCR_INTRO_TWO) ||
@@ -1360,13 +1496,13 @@ int main()
 						draw_laser_lines();
 						draw_lasers--;
 					}
-					
+
 					draw_laser_sights();
 				}
 
 				if (message_count > 0)
 					gfx_display_centre_text (358, message_string, 120, GFX_COL_WHITE);
-					
+
 				if (hyper_ready)
 				{
 					display_hyper_status();
@@ -1377,7 +1513,7 @@ int main()
 				}
 
 				gfx_release_screen();
-			
+
 				mcount--;
 				if (mcount < 0)
 					mcount = 255;
@@ -1395,14 +1531,14 @@ int main()
 
 					update_altitude();
 				}
-				
+
 				if ((mcount & 31) == 20)
 					update_cabin_temp();
-					
+
 				if ((mcount == 0) && (!witchspace))
 					random_encounter();
-					
-				cool_laser();				
+
+				cool_laser();
 				time_ecm();
 
 				update_console();
@@ -1419,7 +1555,7 @@ int main()
     				show_distance_to_planet();
 				}
 			}
-			
+
 			if ((cross_x != old_cross_x) ||
 				(cross_y != old_cross_y))
 			{
@@ -1433,14 +1569,14 @@ int main()
 			}
 		}
 
-		if (!finish)		
+		if (!finish)
 			run_game_over_screen();
 	}
 
 	snd_sound_shutdown();
-	
+
 	gfx_graphics_shutdown ();
-	
+
 	return 0;
 }
 
