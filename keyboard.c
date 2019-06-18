@@ -17,7 +17,7 @@
 
 #include <stdlib.h>
 #include <string.h>
- 
+
 #include "allegro.h"
 
 int kbd_F1_pressed;
@@ -76,6 +76,14 @@ void kbd_poll_keyboard (void)
 {
 	poll_keyboard();
 
+	// Provide a just-freaking-quit key that works on every screen.
+	// There seems to be some sort of problem with key-handling
+	// when running in a VM that makes it impossible to quit
+	// from the options screen.
+	if (key[KEY_Q]) {
+		exit(0);
+	}
+
 	kbd_F1_pressed = key[KEY_F1];
 	kbd_F2_pressed = key[KEY_F2];
 	kbd_F3_pressed = key[KEY_F3];
@@ -108,18 +116,18 @@ void kbd_poll_keyboard (void)
 	kbd_fire_missile_pressed = key[KEY_M];
 	kbd_target_missile_pressed = key[KEY_T];
 	kbd_unarm_missile_pressed = key[KEY_U];
-	
+
 	kbd_pause_pressed = key[KEY_P];
 	kbd_resume_pressed = key[KEY_R];
-	
+
 	kbd_inc_speed_pressed = key[KEY_SPACE];
 	kbd_dec_speed_pressed = key[KEY_SLASH];
-	
+
 	kbd_up_pressed = key[KEY_S] || key[KEY_UP];
 	kbd_down_pressed = key[KEY_X] || key[KEY_DOWN];
 	kbd_left_pressed = key[KEY_COMMA] || key[KEY_LEFT];
 	kbd_right_pressed = key[KEY_STOP] || key[KEY_RIGHT];
-	
+
 	kbd_enter_pressed = key[KEY_ENTER];
 	kbd_backspace_pressed = key[KEY_BACKSPACE];
 	kbd_space_pressed = key[KEY_SPACE];
@@ -137,7 +145,7 @@ int kbd_read_key (void)
 
 	kbd_enter_pressed = 0;
 	kbd_backspace_pressed = 0;
-	
+
 	keynum = readkey();
 	keycode = keynum >> 8;
 	keyasc = keynum & 255;
@@ -146,13 +154,13 @@ int kbd_read_key (void)
 	{
 		kbd_enter_pressed = 1;
 		return 0;
-	} 
+	}
 
 	if (keycode == KEY_BACKSPACE)
 	{
 		kbd_backspace_pressed = 1;
 		return 0;
-	} 
+	}
 
 	return keyasc;
 }
@@ -163,4 +171,4 @@ void kbd_clear_key_buffer (void)
 	while (keypressed())
 		readkey();
 }
- 
+
