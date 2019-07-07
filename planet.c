@@ -160,10 +160,9 @@ int gen_msx_rnd_number (void)
 	return rnd_seed.c / 0x34;
 }
 
-
-void waggle_galaxy (struct galaxy_seed *glx_ptr)
-{
-	printf("Waggling galaxy { a: %d, b: %d, c: %d, d: %d, e: %d, f: %d }\n",
+void print_galaxy(struct galaxy_seed *glx_ptr, char* msg) {
+	printf("Waggling galaxy %s { a: %d, b: %d, c: %d, d: %d, e: %d, f: %d }\n",
+		msg,
 		glx_ptr->a,
 		glx_ptr->b,
 		glx_ptr->c,
@@ -171,7 +170,11 @@ void waggle_galaxy (struct galaxy_seed *glx_ptr)
 		glx_ptr->e,
 		glx_ptr->f
 	);
+}
 
+void waggle_galaxy (struct galaxy_seed *glx_ptr)
+{
+	//print_galaxy(glx_ptr, "");
     unsigned int x;
 	unsigned int y;
 	extern int carry_flag;
@@ -209,15 +212,7 @@ void waggle_galaxy (struct galaxy_seed *glx_ptr)
 	glx_ptr->e = x;
 	glx_ptr->f = y;
 
-
-	printf("Waggling complete { a: %d, b: %d, c: %d, d: %d, e: %d, f: %d }\n",
-		glx_ptr->a,
-		glx_ptr->b,
-		glx_ptr->c,
-		glx_ptr->d,
-		glx_ptr->e,
-		glx_ptr->f
-	);
+	//print_galaxy(glx_ptr, "Complete");
 }
 
 
@@ -257,6 +252,7 @@ struct galaxy_seed find_planet (int cx, int cy)
 		waggle_galaxy (&glx);
 	}
 
+	print_galaxy(&planet, "find_planet returning");
 	return planet;
 }
 
@@ -321,6 +317,8 @@ void name_planet (char *gname, struct galaxy_seed glx)
 	}
 
 	*gp = '\0';
+
+	printf("named planet as %s", gp);
 }
 
 
