@@ -142,10 +142,10 @@ int gen_msx_rnd_number (void)
 
 	a = rnd_seed.a;
 	b = rnd_seed.b;
-	
+
 	rnd_seed.a = rnd_seed.c;
 	rnd_seed.b = rnd_seed.d;
-	
+
 	a += rnd_seed.c;
 	b = (b + rnd_seed.d) & 255;
 	if (a > 255)
@@ -153,16 +153,25 @@ int gen_msx_rnd_number (void)
 		a &= 255;
 		b++;
 	}
-	
+
 	rnd_seed.c = a;
 	rnd_seed.d = b;
-	
+
 	return rnd_seed.c / 0x34;
 }
 
 
 void waggle_galaxy (struct galaxy_seed *glx_ptr)
 {
+	printf("Waggling galaxy { a: %d, b: %d, c: %d, d: %d, e: %d, f: %d }",
+		glx_ptr->a,
+		glx_ptr->b,
+		glx_ptr->c,
+		glx_ptr->d,
+		glx_ptr->e,
+		glx_ptr->f
+	);
+
     unsigned int x;
 	unsigned int y;
 	extern int carry_flag;
@@ -199,6 +208,16 @@ void waggle_galaxy (struct galaxy_seed *glx_ptr)
 
 	glx_ptr->e = x;
 	glx_ptr->f = y;
+
+
+	printf("Waggling complete { a: %d, b: %d, c: %d, d: %d, e: %d, f: %d }",
+		glx_ptr->a,
+		glx_ptr->b,
+		glx_ptr->c,
+		glx_ptr->d,
+		glx_ptr->e,
+		glx_ptr->f
+	);
 }
 
 
@@ -259,7 +278,7 @@ int find_planet_number (struct galaxy_seed planet)
 			(planet.e == glx.e) &&
 			(planet.f == glx.f))
 			return i;
-	
+
 		waggle_galaxy (&glx);
 		waggle_galaxy (&glx);
 		waggle_galaxy (&glx);
@@ -376,7 +395,7 @@ void expand_description (char *source)
 			*ptr = '\0';
 			source++;
 			num = atoi(str);
-			
+
 			if (hoopy_casinos)
 			{
 				option = gen_msx_rnd_number();
@@ -390,7 +409,7 @@ void expand_description (char *source)
 				if (rnd >= 0x99) option++;
 				if (rnd >= 0xCC) option++;
 			}
-			
+
 			expand_description (desc_list[num][option]);
 			continue;
 		}
@@ -448,14 +467,14 @@ void expand_description (char *source)
 char *describe_planet (struct galaxy_seed planet)
 {
 	char *mission_text;
-	
+
 	if (cmdr.mission == 1)
 	{
 		mission_text = mission_planet_desc (planet);
 		if (mission_text != NULL)
 			return mission_text;
 	}
-	
+
 	rnd_seed.a = planet.c;
 	rnd_seed.b = planet.d;
 	rnd_seed.c = planet.e;
@@ -468,7 +487,7 @@ char *describe_planet (struct galaxy_seed planet)
 		rnd_seed.c ^= rnd_seed.a;
 		rnd_seed.d ^= rnd_seed.b;
 	}
-	
+
 	desc_ptr = planet_description;
 
 	expand_description ("<14> is <22>.");
