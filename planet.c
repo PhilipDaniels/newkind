@@ -163,7 +163,7 @@ int gen_msx_rnd_number (void)
 
 void waggle_galaxy (struct galaxy_seed *glx_ptr)
 {
-	printf("Waggling galaxy { a: %d, b: %d, c: %d, d: %d, e: %d, f: %d }",
+	printf("Waggling galaxy { a: %d, b: %d, c: %d, d: %d, e: %d, f: %d }\n",
 		glx_ptr->a,
 		glx_ptr->b,
 		glx_ptr->c,
@@ -210,7 +210,7 @@ void waggle_galaxy (struct galaxy_seed *glx_ptr)
 	glx_ptr->f = y;
 
 
-	printf("Waggling complete { a: %d, b: %d, c: %d, d: %d, e: %d, f: %d }",
+	printf("Waggling complete { a: %d, b: %d, c: %d, d: %d, e: %d, f: %d }\n",
 		glx_ptr->a,
 		glx_ptr->b,
 		glx_ptr->c,
