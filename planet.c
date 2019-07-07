@@ -318,7 +318,7 @@ void name_planet (char *gname, struct galaxy_seed glx)
 
 	*gp = '\0';
 
-	printf("named planet as %s", gp);
+	printf("named planet as %s\n", gname);
 }
 
 
