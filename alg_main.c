@@ -1296,21 +1296,21 @@ void dump_ship_data(struct ship_data* ship, char* name, struct ship_solid* solid
 	printf("static %s_POINT: [ShipPoint; %u] = [\n", name, ship->num_points);
 	for (int i = 0; i < ship->num_points; i++) {
 		struct ship_point p = ship->points[i];
-		printf("    ShipPoint { x: %4d, y: %4d, z: %4d, dist: %4d, face1: %2d, face2: %2d, face3: %2d, face4: %2d },\n", p.x, p.y, p.z, p.dist, p.face1, p.face2, p.face3, p.face4);
+		printf("    ShipPoint { x: %4d.0, y: %4d.0, z: %4d.0, dist: %4d.0, face1: %2d, face2: %2d, face3: %2d, face4: %2d },\n", p.x, p.y, p.z, p.dist, p.face1, p.face2, p.face3, p.face4);
 	}
 	printf("];\n\n");
 
 	printf("static %s_LINE: [ShipLine; %u] = [\n", name, ship->num_lines);
 	for (int i = 0; i < ship->num_lines; i++) {
 		struct ship_line l = ship->lines[i];
-		printf("    ShipLine { dist: %4d, face1: %2d, face2: %2d, start_point: %2d, end_point: %2d },\n", l.dist, l.face1, l.face2, l.start_point, l.end_point);
+		printf("    ShipLine { dist: %4d.0, face1: %2d, face2: %2d, start_point: %2d, end_point: %2d },\n", l.dist, l.face1, l.face2, l.start_point, l.end_point);
 	}
 	printf("];\n\n");
 
 	printf("static %s_FACE_NORMAL: [ShipFaceNormal; %u] = [\n", name, ship->num_faces);
 	for (int i = 0; i < ship->num_faces; i++) {
 		struct ship_face_normal n = ship->normals[i];
-		printf("    ShipFaceNormal { dist: %4d, x: %4d, y: %4d, z: %4d },\n", n.dist, n.x, n.y, n.z);
+		printf("    ShipFaceNormal { dist: %4d.0, x: %4d.0, y: %4d.0, z: %4d.0 },\n", n.dist, n.x, n.y, n.z);
 	}
 	printf("];\n\n");
 
@@ -1320,7 +1320,7 @@ void dump_ship_data(struct ship_data* ship, char* name, struct ship_solid* solid
 
 		printf("    ShipFace { color: ");
 		dump_colour(f.colour);
-		printf(", norm_x: %4d, norm_y: %4d, norm_z: %4d, num_points: %1d, p1: %2d, p2: %2d, p3: %2d, p4: %2d, p5: %2d, p6: %2d, p7: %2d, p8: %2d },\n",
+		printf(", norm_x: %4d.0, norm_y: %4d.0, norm_z: %4d.0, num_points: %1d, p1: %2d, p2: %2d, p3: %2d, p4: %2d, p5: %2d, p6: %2d, p7: %2d, p8: %2d },\n",
 			f.norm_x, f.norm_y, f.norm_z,
 			f.points,
 			f.p1, f.p2, f.p3, f.p4, f.p5, f.p6, f.p7, f.p8);
